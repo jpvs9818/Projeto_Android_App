@@ -34,6 +34,7 @@ public class SecondActivity extends AppCompatActivity {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
+                month += 1;
                 Toast.makeText(SecondActivity.this,day + "/" + month + "/" + year,Toast.LENGTH_SHORT).show();
             }
         });
