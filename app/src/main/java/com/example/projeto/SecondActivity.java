@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -19,7 +20,8 @@ public class SecondActivity extends AppCompatActivity {
 
     CalendarView calendarView;
     Calendar calendar;
-
+    TextView income;
+    TextView expenses;
     FloatingActionButton floatingActionButton;
 
     @Override
@@ -28,6 +30,8 @@ public class SecondActivity extends AppCompatActivity {
         setContentView(R.layout.activity_second);
         calendarView = findViewById(R.id.calendar);
         calendar = Calendar.getInstance();
+        income = findViewById(R.id.IncomeValue);
+        expenses = findViewById(R.id.ExpensesValue);
         floatingActionButton = findViewById(R.id.detailsButton);
         setDate(1,1,2023);
         getDate();
@@ -41,7 +45,7 @@ public class SecondActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SecondActivity.this,ThirdActivity.class);
+                Intent intent = new Intent(SecondActivity.this, ThirdActivity.class);
                 startActivity(intent);
             }
         });

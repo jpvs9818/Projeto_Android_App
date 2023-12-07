@@ -1,53 +1,78 @@
 package com.example.projeto;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.View;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.button.MaterialButton;
 
-import androidx.core.view.WindowCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.example.projeto.databinding.ActivityThirdBinding;
+public class ThirdActivity extends AppCompatActivity {
 
-public class  ThirdActivity extends AppCompatActivity {
-
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityThirdBinding binding;
+    private DatabaseHelper databaseHelper;
+    private List<Note> notesList;
+    private MyAdapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_third);
 
-        binding = ActivityThirdBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        MaterialButton addNoteBtn = findViewById(R.id.addnewnotebtn);
 
-        setSupportActionBar(binding.toolbar);
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_third2);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-        binding.toolbar.setOnClickListener(new View.OnClickListener() {
+        addNoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.fab)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                startActivity(new Intent(ThirdActivity.this, AddNoteActivity.class));
             }
         });
+
+        // Initialize DatabaseHelper
+        databaseHelper = new DatabaseHelper(this);
+
+        // Load notes from SQLite database
+        loadNotesFromDatabase();
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        myAdapter = new MyAdapter(getApplicationContext(), notesList);
+        recyclerView.setAdapter(myAdapter);
+    }
+
+    private void loadNotesFromDatabase() {
+        notesList = new ArrayList<>();
+
+        Cursor cursor = databaseHelper.getAllNotes();
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID));
+                String title = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_TITLE));
+                String content = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_CONTENT));
+                long createdTime = cursor.getLong(cursor.getColumnIndex(DatabaseHelper.COLUMN_CREATED_TIME));
+
+                Note note = new Note();
+                note.setId(id);
+                note.setTitle(title);
+                note.setContent(content);
+                note.setCreatedTime(createdTime);
+
+                notesList.add(note);
+            } while (cursor.moveToNext());
+
+            cursor.close();
+        }
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_third2);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+    protected void onResume() {
+        super.onResume();
+        // Reload notes when the activity resumes
+        loadNotesFromDatabase();
+        myAdapter.notifyDataSetChanged();
     }
 }

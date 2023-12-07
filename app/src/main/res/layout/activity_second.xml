@@ -10,6 +10,7 @@
         android:id="@+id/ExpensesValue"
         android:layout_width="151dp"
         android:layout_height="55dp"
+        android:gravity="right"
         android:text="@string/expenseValue"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,7 +18,8 @@
         app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toEndOf="@+id/expenseet"
         app:layout_constraintTop_toBottomOf="@+id/IncomeValue"
-        app:layout_constraintVertical_bias="0.183" />
+        app:layout_constraintVertical_bias="0.183"
+        tools:ignore="TextSizeCheck" />
 
     <TextView
         android:id="@+id/Incomeet"
@@ -30,7 +32,8 @@
         app:layout_constraintHorizontal_bias="0.062"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calendar"
-        app:layout_constraintVertical_bias="0.087" />
+        app:layout_constraintVertical_bias="0.087"
+        tools:ignore="TextSizeCheck" />
 
     <CalendarView
         android:id="@+id/calendar"
@@ -53,7 +56,8 @@
         app:layout_constraintHorizontal_bias="0.066"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Incomeet"
-        app:layout_constraintVertical_bias="0.192" />
+        app:layout_constraintVertical_bias="0.192"
+        tools:ignore="TextSizeCheck" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/detailsButton"
@@ -75,6 +79,7 @@
         android:id="@+id/IncomeValue"
         android:layout_width="151dp"
         android:layout_height="55dp"
+        android:gravity="right"
         android:text="@string/incomeValue"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -82,5 +87,6 @@
         app:layout_constraintHorizontal_bias="0.55"
         app:layout_constraintStart_toEndOf="@+id/Incomeet"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.523" />
+        app:layout_constraintVertical_bias="0.523"
+        tools:ignore="TextSizeCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>
